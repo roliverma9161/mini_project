@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Notes App</title>
+
+  <!-- Bootstrap CSS -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  >
+
+  <!-- Bootstrap Icons -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+    rel="stylesheet"
+  >
+
+  <!-- Google Font -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Poppins", sans-serif;
+      background: #f4f6fb;
+      color: #222;
+    }
+
+    .navbar {
+      background: linear-gradient(135deg, #6c63ff, #5148d8);
+      box-shadow: 0 5px 20px rgba(81, 72, 216, 0.2);
+    }
+
+    .brand {
+      color: white;
+      font-size: 25px;
+      font-weight: 700;
+    }
+
+    .brand:hover {
+      color: white;
+    }
+
+    .main-container {
+      max-width: 1150px;
+      margin: auto;
+      padding: 35px 20px;
+    }
+
+    .hero-title {
+      font-size: 32px;
+      font-weight: 700;
+      color: #202044;
+    }
+
+    .hero-text {
+      color: #777;
+      font-size: 14px;
+    }
+
+    .note-form {
+      background: white;
+      border-radius: 18px;
+      padding: 25px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+      border: 1px solid #eee;
+    }
+
+    .form-control {
+      border-radius: 10px;
+      padding: 12px;
+      border: 1px solid #ddd;
+    }
+
+    .form-control:focus {
+      border-color: #6c63ff;
+      box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.12);
+    }
+
+    .btn-primary {
+      background: #6c63ff;
+      border: none;
+      border-radius: 10px;
+      padding: 12px 22px;
+      font-weight: 600;
+    }
+
+    .btn-primary:hover {
+      background: #5148d8;
+    }
+
+    .btn-secondary {
+      border-radius: 10px;
+      padding: 12px 22px;
+      font-weight: 600;
+    }
+
+    .search-box {
+      background: white;
+      border-radius: 12px;
+      padding: 12px 15px;
+      border: 1px solid #eee;
+    }
+
+    .notes-heading {
+      font-size: 22px;
+      font-weight: 700;
+      color: #202044;
+    }
+
+    .note-card {
+      position: relative;
+      height: 100%;
+      background: white;
+      border-radius: 17px;
+      padding: 22px;
+      border-top: 5px solid #6c63ff;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+      transition: 0.3s;
+      overflow-wrap: anywhere;
+    }
+
+    .note-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.10);
+    }
+
+    .note-card.pinned {
+      border-top-color: #ffc107;
+      background: #fffdf3;
+    }
+
+    .note-title {
+      font-size: 19px;
+      font-weight: 700;
+      color: #25254d;
+      margin-bottom: 12px;
+    }
+
+    .note-content {
+      color: #666;
+      font-size: 14px;
+      line-height: 1.8;
+      white-space: pre-wrap;
+      min-height: 70px;
+    }
+
+    .note-date {
+      color: #999;
+      font-size: 11px;
+      margin-top: 18px;
+    }
+
+    .note-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 18px;
+    }
+
+    .action-btn {
+      border: none;
+      border-radius: 8px;
+      padding: 7px 11px;
+      font-size: 13px;
+      transition: 0.3s;
+    }
+
+    .edit-btn {
+      background: #e9e7ff;
+      color: #5148d8;
+    }
+
+    .edit-btn:hover {
+      background: #d8d4ff;
+    }
+
+    .delete-btn {
+      background: #ffe4e6;
+      color: #dc3545;
+    }
+
+    .delete-btn:hover {
+      background: #ffcdd2;
+    }
+
+    .pin-btn {
+      background: #fff0c2;
+      color: #9b7200;
+    }
+
+    .pin-btn:hover {
+      background: #ffe49a;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      background: white;
+      border-radius: 18px;
+      border: 2px dashed #ddd;
+    }
+
+    .empty-state i {
+      font-size: 55px;
+      color: #6c63ff;
+    }
+
+    .empty-state h4 {
+      margin-top: 15px;
+      font-weight: 700;
+    }
+
+    .empty-state p {
+      color: #888;
+      font-size: 14px;
+    }
+
+    .character-count {
+      color: #888;
+      font-size: 12px;
+      text-align: right;
+    }
+
+    .footer {
+      text-align: center;
+      color: #888;
+      font-size: 13px;
+      padding: 25px;
+    }
+
+    @media (max-width: 576px) {
+      .hero-title {
+        font-size: 26px;
+      }
+
+      .note-form {
+        padding: 20px;
+      }
+
+      .brand {
+        font-size: 21px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg">
+    <div class="container">
+      <a href="#" class="navbar-brand brand">
+        <i class="bi bi-journal-text"></i>
+        My Notes
+      </a>
+
+      <span class="text-white small">
+        Organize your thoughts ✨
+      </span>
+    </div>
+  </nav>
+
+
+  <!-- Main Content -->
+  <main class="main-container">
+
+    <!-- Heading -->
+    <div class="mb-4">
+      <h1 class="hero-title">
+        Your Personal Notes
+      </h1>
+
+      <p class="hero-text">
+        Write, save and manage your important thoughts in one place.
+      </p>
+    </div>
+
+
+    <!-- Note Form -->
+    <div class="note-form mb-5">
+
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h4 id="formHeading" class="mb-0 fw-bold">
+          Create New Note
+        </h4>
+
+        <span class="badge text-bg-light">
+          <i class="bi bi-pencil-square"></i>
+          Notes
+        </span>
+      </div>
+
+      <form id="noteForm">
+
+        <!-- Title -->
+        <div class="mb-3">
+
+          <label for="noteTitle" class="form-label fw-semibold">
+            Note Title
+          </label>
+
+          <input
+            type="text"
+            id="noteTitle"
+            class="form-control"
+            placeholder="Enter note title..."
+            maxlength="60"
+            required
+          >
+
+        </div>
+
+
+        <!-- Content -->
+        <div class="mb-2">
+
+          <label for="noteContent" class="form-label fw-semibold">
+            Note Content
+          </label>
+
+          <textarea
+            id="noteContent"
+            class="form-control"
+            rows="5"
+            placeholder="Write your note here..."
+            maxlength="500"
+            required
+          ></textarea>
+
+        </div>
+
+        <div class="character-count mb-3">
+          <span id="characterCount">0</span>/500 characters
+        </div>
+
+
+        <!-- Buttons -->
+        <div class="d-flex gap-2 flex-wrap">
+
+          <button
+            type="submit"
+            class="btn btn-primary"
+            id="saveButton"
+          >
+            <i class="bi bi-plus-circle"></i>
+            Add Note
+          </button>
+
+          <button
+            type="button"
+            class="btn btn-secondary"
+            id="cancelButton"
+            style="display: none;"
+          >
+            <i class="bi bi-x-circle"></i>
+            Cancel Edit
+          </button>
+
+        </div>
+
+      </form>
+
+    </div>
+
+
+    <!-- Search and Heading -->
+    <div class="row align-items-center mb-4">
+
+      <div class="col-md-6 mb-3 mb-md-0">
+        <h3 class="notes-heading mb-0">
+          My Notes
+          <span class="badge text-bg-primary" id="notesCount">
+            0
+          </span>
+        </h3>
+      </div>
+
+      <div class="col-md-6">
+
+        <div class="input-group search-box">
+
+          <span class="input-group-text bg-white border-0">
+            <i class="bi bi-search"></i>
+          </span>
+
+          <input
+            type="text"
+            id="searchInput"
+            class="form-control border-0"
+            placeholder="Search notes..."
+          >
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- Notes Area -->
+    <div id="notesContainer" class="row g-4"></div>
+
+
+    <!-- Empty State -->
+    <div id="emptyState" class="empty-state">
+
+      <i class="bi bi-journal-plus"></i>
+
+      <h4>No Notes Found</h4>
+
+      <p>
+        Start by creating your first note.
+      </p>
+
+    </div>
+
+  </main>
+
+
+  <!-- Footer -->
+  <footer class="footer">
+    Made with ❤️ using HTML, CSS, JavaScript and Bootstrap
+  </footer>
+
+
+  <script>
+
+    // DOM Elements
+    const noteForm = document.getElementById("noteForm");
+
+    const noteTitle = document.getElementById("noteTitle");
+
+    const noteContent = document.getElementById("noteContent");
+
+    const notesContainer = document.getElementById("notesContainer");
+
+    const emptyState = document.getElementById("emptyState");
+
+    const searchInput = document.getElementById("searchInput");
+
+    const notesCount = document.getElementById("notesCount");
+
+    const characterCount = document.getElementById("characterCount");
+
+    const formHeading = document.getElementById("formHeading");
+
+    const saveButton = document.getElementById("saveButton");
+
+    const cancelButton = document.getElementById("cancelButton");
+
+
+    // Load notes from LocalStorage
+    let notes = JSON.parse(localStorage.getItem("myNotes")) || [];
+
+    let editingNoteId = null;
+
+
+    // Save notes to LocalStorage
+    function saveToLocalStorage() {
+
+      localStorage.setItem("myNotes", JSON.stringify(notes));
+
+    }
+
+
+    // Generate unique ID
+    function generateId() {
+
+      return Date.now();
+
+    }
+
+
+    // Format date
+    function formatDate(date) {
+
+      return new Date(date).toLocaleString("en-IN", {
+        dateStyle: "medium",
+        timeStyle: "short"
+      });
+
+    }
+
+
+    // Display notes
+    function displayNotes(searchTerm = "") {
+
+      notesContainer.innerHTML = "";
+
+      const filteredNotes = notes
+        .filter(note => {
+
+          const title =
+            note.title.toLowerCase();
+
+          const content =
+            note.content.toLowerCase();
+
+          return (
+            title.includes(searchTerm.toLowerCase()) ||
+            content.includes(searchTerm.toLowerCase())
+          );
+
+        })
+        .sort((a, b) => {
+
+          // Pinned notes first
+          if (a.pinned !== b.pinned) {
+            return b.pinned - a.pinned;
+          }
+
+          return b.createdAt - a.createdAt;
+
+        });
+
+
+      notesCount.textContent = filteredNotes.length;
+
+
+      if (filteredNotes.length === 0) {
+
+        emptyState.style.display = "block";
+
+        return;
+
+      }
+
+
+      emptyState.style.display = "none";
+
+
+      filteredNotes.forEach(note => {
+
+        const column = document.createElement("div");
+
+        column.className = "col-md-6 col-lg-4";
+
+
+        const card = document.createElement("div");
+
+        card.className =
+          `note-card ${note.pinned ? "pinned" : ""}`;
+
+
+        card.innerHTML = `
+
+          <div class="d-flex justify-content-between align-items-start gap-2">
+
+            <h5 class="note-title">
+              ${escapeHTML(note.title)}
+            </h5>
+
+            ${
+              note.pinned
+                ? '<i class="bi bi-pin-fill text-warning"></i>'
+                : ''
+            }
+
+          </div>
+
+          <p class="note-content">
+            ${escapeHTML(note.content)}
+          </p>
+
+          <div class="note-date">
+            <i class="bi bi-clock"></i>
+            ${formatDate(note.createdAt)}
+          </div>
+
+          <div class="note-actions">
+
+            <button
+              class="action-btn edit-btn"
+              onclick="editNote(${note.id})"
+            >
+              <i class="bi bi-pencil"></i>
+              Edit
+            </button>
+
+            <button
+              class="action-btn delete-btn"
+              onclick="deleteNote(${note.id})"
+            >
+              <i class="bi bi-trash"></i>
+              Delete
+            </button>
+
+            <button
+              class="action-btn pin-btn"
+              onclick="togglePin(${note.id})"
+            >
+              <i class="bi bi-pin"></i>
+              ${note.pinned ? "Unpin" : "Pin"}
+            </button>
+
+          </div>
+
+        `;
+
+
+        column.appendChild(card);
+
+        notesContainer.appendChild(column);
+
+      });
+
+    }
+
+
+    // Protect against HTML injection
+    function escapeHTML(text) {
+
+      return text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+    }
+
+
+    // Add or update note
+    noteForm.addEventListener("submit", function(event) {
+
+      event.preventDefault();
+
+
+      const title = noteTitle.value.trim();
+
+      const content = noteContent.value.trim();
+
+
+      if (!title || !content) {
+
+        alert("Please fill both title and content.");
+
+        return;
+
+      }
+
+
+      if (editingNoteId !== null) {
+
+        // Update existing note
+        notes = notes.map(note => {
+
+          if (note.id === editingNoteId) {
+
+            return {
+              ...note,
+              title: title,
+              content: content,
+              updatedAt: Date.now()
+            };
+
+          }
+
+          return note;
+
+        });
+
+        alert("Note updated successfully!");
+
+      } else {
+
+        // Create new note
+        const newNote = {
+
+          id: generateId(),
+
+          title: title,
+
+          content: content,
+
+          pinned: false,
+
+          createdAt: Date.now()
+
+        };
+
+        notes.push(newNote);
+
+        alert("Note added successfully!");
+
+      }
+
+
+      saveToLocalStorage();
+
+      resetForm();
+
+      displayNotes(searchInput.value);
+
+    });
+
+
+    // Edit note
+    function editNote(id) {
+
+      const note = notes.find(note => note.id === id);
+
+      if (!note) {
+        return;
+      }
+
+
+      noteTitle.value = note.title;
+
+      noteContent.value = note.content;
+
+      editingNoteId = id;
+
+
+      formHeading.textContent = "Edit Note";
+
+      saveButton.innerHTML =
+        '<i class="bi bi-check-circle"></i> Update Note';
+
+      cancelButton.style.display = "inline-block";
+
+
+      updateCharacterCount();
+
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+
+    }
+
+
+    // Delete note
+    function deleteNote(id) {
+
+      const confirmDelete =
+        confirm("Are you sure you want to delete this note?");
+
+
+      if (!confirmDelete) {
+        return;
+      }
+
+
+      notes = notes.filter(note => note.id !== id);
+
+      saveToLocalStorage();
+
+      displayNotes(searchInput.value);
+
+    }
+
+
+    // Pin / Unpin note
+    function togglePin(id) {
+
+      notes = notes.map(note => {
+
+        if (note.id === id) {
+
+          return {
+            ...note,
+            pinned: !note.pinned
+          };
+
+        }
+
+        return note;
+
+      });
+
+
+      saveToLocalStorage();
+
+      displayNotes(searchInput.value);
+
+    }
+
+
+    // Reset form
+    function resetForm() {
+
+      noteForm.reset();
+
+      editingNoteId = null;
+
+      formHeading.textContent = "Create New Note";
+
+      saveButton.innerHTML =
+        '<i class="bi bi-plus-circle"></i> Add Note';
+
+      cancelButton.style.display = "none";
+
+      updateCharacterCount();
+
+    }
+
+
+    // Cancel editing
+    cancelButton.addEventListener("click", resetForm);
+
+
+    // Search notes
+    searchInput.addEventListener("input", function() {
+
+      displayNotes(searchInput.value);
+
+    });
+
+
+    // Character counter
+    function updateCharacterCount() {
+
+      characterCount.textContent =
+        noteContent.value.length;
+
+    }
+
+
+    noteContent.addEventListener(
+      "input",
+      updateCharacterCount
+    );
+
+
+    // Initial display
+    displayNotes();
+
+  </script>
+
+</body>
+</html>
