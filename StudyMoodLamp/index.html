@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Study Mood Lamp</title>
+
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  />
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: "Poppins", sans-serif;
+      background: #111827;
+      color: white;
+      transition: 0.5s ease;
+      overflow-x: hidden;
+    }
+
+    .app-container {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 25px 15px;
+    }
+
+    .main-card {
+      width: 100%;
+      max-width: 1050px;
+      background: rgba(255, 255, 255, 0.09);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 25px;
+      padding: 30px;
+      backdrop-filter: blur(15px);
+      box-shadow: 0 20px 70px rgba(0, 0, 0, 0.3);
+    }
+
+    .heading {
+      font-weight: 700;
+      color: #facc15;
+    }
+
+    .subtitle {
+      color: #cbd5e1;
+      font-size: 14px;
+    }
+
+    .lamp-area {
+      min-height: 430px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    .lamp-glow {
+      width: 270px;
+      height: 270px;
+      border-radius: 50%;
+      position: absolute;
+      background: #facc15;
+      filter: blur(55px);
+      opacity: 0.45;
+      transition: 0.5s ease;
+    }
+
+    .lamp {
+      width: 210px;
+      height: 230px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .lamp-shade {
+      width: 180px;
+      height: 125px;
+      background: #facc15;
+      border-radius: 90px 90px 25px 25px;
+      margin: auto;
+      box-shadow: 0 0 35px #facc15;
+      transition: 0.5s ease;
+      position: relative;
+    }
+
+    .lamp-shade::after {
+      content: "";
+      position: absolute;
+      width: 125px;
+      height: 12px;
+      background: rgba(255, 255, 255, 0.45);
+      border-radius: 50%;
+      top: 20px;
+      left: 28px;
+    }
+
+    .lamp-stand {
+      width: 18px;
+      height: 75px;
+      background: #cbd5e1;
+      margin: auto;
+    }
+
+    .lamp-base {
+      width: 115px;
+      height: 20px;
+      background: #64748b;
+      border-radius: 50%;
+      margin: auto;
+    }
+
+    .lamp-label {
+      margin-top: 35px;
+      font-size: 20px;
+      font-weight: 600;
+    }
+
+    .quote-box {
+      background: rgba(0, 0, 0, 0.2);
+      padding: 20px;
+      border-radius: 16px;
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .quote {
+      font-size: 16px;
+      font-style: italic;
+      color: #f8fafc;
+    }
+
+    .mood-btn {
+      border: none;
+      border-radius: 14px;
+      padding: 12px 10px;
+      font-weight: 600;
+      background: rgba(255, 255, 255, 0.12);
+      color: white;
+      transition: 0.3s ease;
+    }
+
+    .mood-btn:hover,
+    .mood-btn.active {
+      background: #facc15;
+      color: #111827;
+      transform: translateY(-3px);
+    }
+
+    .control-box {
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 18px;
+      padding: 20px;
+      margin-top: 20px;
+    }
+
+    .form-range {
+      accent-color: #facc15;
+    }
+
+    .status {
+      font-size: 13px;
+      color: #cbd5e1;
+    }
+
+    .reset-btn {
+      background: #ef4444;
+      border: none;
+      color: white;
+      border-radius: 10px;
+      padding: 10px 18px;
+      font-weight: 600;
+    }
+
+    .reset-btn:hover {
+      background: #dc2626;
+    }
+
+    @media (max-width: 768px) {
+      .main-card {
+        padding: 20px;
+      }
+
+      .lamp-area {
+        min-height: 350px;
+      }
+
+      .heading {
+        font-size: 25px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="app-container">
+    <div class="main-card">
+
+      <div class="text-center mb-4">
+        <h1 class="heading">Study Mood Lamp 💡</h1>
+        <p class="subtitle">
+          Select your mood and create the perfect study atmosphere.
+        </p>
+      </div>
+
+      <div class="row g-4 align-items-center">
+
+        <!-- Lamp Section -->
+        <div class="col-lg-6">
+          <div class="lamp-area">
+
+            <div class="lamp-glow" id="lampGlow"></div>
+
+            <div class="lamp">
+              <div class="lamp-shade" id="lampShade"></div>
+              <div class="lamp-stand"></div>
+              <div class="lamp-base"></div>
+            </div>
+
+            <div class="lamp-label" id="moodTitle">
+              Happy Mood
+            </div>
+
+            <div class="quote-box">
+              <p class="quote mb-0" id="quoteText">
+                "Small steps every day lead to big results."
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Controls Section -->
+        <div class="col-lg-6">
+
+          <h5 class="mb-3">Choose Your Mood</h5>
+
+          <div class="row g-2">
+            <div class="col-6">
+              <button class="mood-btn w-100 active" data-mood="happy">
+                😊 Happy
+              </button>
+            </div>
+
+            <div class="col-6">
+              <button class="mood-btn w-100" data-mood="calm">
+                😌 Calm
+              </button>
+            </div>
+
+            <div class="col-6">
+              <button class="mood-btn w-100" data-mood="focus">
+                🎯 Focus
+              </button>
+            </div>
+
+            <div class="col-6">
+              <button class="mood-btn w-100" data-mood="sad">
+                😔 Sad
+              </button>
+            </div>
+
+            <div class="col-12">
+              <button class="mood-btn w-100" data-mood="energy">
+                ⚡ Energetic
+              </button>
+            </div>
+          </div>
+
+          <div class="control-box">
+            <label for="brightness" class="form-label">
+              Lamp Brightness:
+              <strong><span id="brightnessValue">70</span>%</strong>
+            </label>
+
+            <input
+              type="range"
+              class="form-range"
+              id="brightness"
+              min="10"
+              max="100"
+              value="70"
+            />
+
+            <p class="status mt-2 mb-0" id="statusText">
+              Your lamp is glowing warmly.
+            </p>
+          </div>
+
+          <div class="control-box">
+            <h6>Study Tip 📚</h6>
+            <p class="status mb-0" id="studyTip">
+              Stay positive and complete one small task at a time.
+            </p>
+          </div>
+
+          <button class="reset-btn mt-3" id="resetBtn">
+            Reset Lamp
+          </button>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const moods = {
+      happy: {
+        title: "Happy Mood 😊",
+        color: "#facc15",
+        background: "#422006",
+        quote: "Small steps every day lead to big results.",
+        status: "Your lamp is glowing warmly.",
+        tip: "Stay positive and complete one small task at a time."
+      },
+
+      calm: {
+        title: "Calm Mood 😌",
+        color: "#38bdf8",
+        background: "#082f49",
+        quote: "Breathe in peace, breathe out stress.",
+        status: "Your room feels calm and peaceful.",
+        tip: "Take deep breaths and study without rushing."
+      },
+
+      focus: {
+        title: "Focus Mood 🎯",
+        color: "#a78bfa",
+        background: "#2e1065",
+        quote: "Focus on progress, not perfection.",
+        status: "Focus mode activated. No distractions!",
+        tip: "Keep your phone away and study for 25 minutes."
+      },
+
+      sad: {
+        title: "Comfort Mood 😔",
+        color: "#60a5fa",
+        background: "#172554",
+        quote: "It is okay to have a bad day. Keep going.",
+        status: "Your lamp is giving you a little comfort.",
+        tip: "Take a short break, drink water and start slowly."
+      },
+
+      energy: {
+        title: "Energetic Mood ⚡",
+        color: "#fb7185",
+        background: "#4c0519",
+        quote: "Your energy creates your future.",
+        status: "Energy mode activated!",
+        tip: "Set a small goal and finish it with full energy."
+      }
+    };
+
+    const lampShade = document.getElementById("lampShade");
+    const lampGlow = document.getElementById("lampGlow");
+    const moodTitle = document.getElementById("moodTitle");
+    const quoteText = document.getElementById("quoteText");
+    const statusText = document.getElementById("statusText");
+    const studyTip = document.getElementById("studyTip");
+    const brightness = document.getElementById("brightness");
+    const brightnessValue = document.getElementById("brightnessValue");
+    const resetBtn = document.getElementById("resetBtn");
+    const moodButtons = document.querySelectorAll(".mood-btn");
+
+    let currentMood = "happy";
+
+    function applyMood(moodName) {
+      const mood = moods[moodName];
+
+      currentMood = moodName;
+
+      document.body.style.background = mood.background;
+
+      lampShade.style.background = mood.color;
+      lampShade.style.boxShadow = `0 0 35px ${mood.color}`;
+
+      lampGlow.style.background = mood.color;
+
+      moodTitle.textContent = mood.title;
+      quoteText.textContent = `"${mood.quote}"`;
+      statusText.textContent = mood.status;
+      studyTip.textContent = mood.tip;
+
+      moodButtons.forEach((button) => {
+        button.classList.remove("active");
+
+        if (button.dataset.mood === moodName) {
+          button.classList.add("active");
+        }
+      });
+
+      updateBrightness();
+    }
+
+    function updateBrightness() {
+      const value = brightness.value;
+
+      brightnessValue.textContent = value;
+
+      lampShade.style.opacity = value / 100;
+      lampGlow.style.opacity = (value / 100) * 0.65;
+    }
+
+    moodButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        applyMood(button.dataset.mood);
+      });
+    });
+
+    brightness.addEventListener("input", updateBrightness);
+
+    resetBtn.addEventListener("click", () => {
+      brightness.value = 70;
+      applyMood("happy");
+    });
+
+    applyMood("happy");
+  </script>
+</body>
+</html>
