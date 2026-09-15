@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Random Excuse Generator 😂</title>
+
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  />
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: "Poppins", sans-serif;
+      background: linear-gradient(135deg, #fce7f3, #e0e7ff, #fef3c7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .main-card {
+      width: 100%;
+      max-width: 850px;
+      background: rgba(255, 255, 255, 0.8);
+      border-radius: 28px;
+      padding: 35px;
+      box-shadow: 0 20px 60px rgba(79, 70, 229, 0.18);
+      backdrop-filter: blur(15px);
+    }
+
+    .heading {
+      color: #4f46e5;
+      font-weight: 700;
+    }
+
+    .subtitle {
+      color: #6b7280;
+      font-size: 14px;
+    }
+
+    .emoji {
+      font-size: 65px;
+      animation: bounce 1.5s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-8px);
+      }
+    }
+
+    .excuse-box {
+      min-height: 180px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 25px;
+      background: linear-gradient(135deg, #eef2ff, #fdf2f8);
+      border: 2px dashed #a5b4fc;
+      border-radius: 20px;
+      margin: 25px 0;
+    }
+
+    .excuse-text {
+      font-size: 23px;
+      font-weight: 600;
+      color: #312e81;
+      line-height: 1.6;
+    }
+
+    .category-btn {
+      border: 1px solid #c7d2fe;
+      background: white;
+      color: #4f46e5;
+      border-radius: 12px;
+      padding: 10px 15px;
+      font-weight: 600;
+      transition: 0.3s ease;
+    }
+
+    .category-btn:hover,
+    .category-btn.active {
+      background: #4f46e5;
+      color: white;
+      transform: translateY(-2px);
+    }
+
+    .main-btn {
+      border: none;
+      border-radius: 13px;
+      padding: 13px 22px;
+      font-weight: 600;
+      transition: 0.3s ease;
+    }
+
+    .main-btn:hover {
+      transform: translateY(-3px);
+    }
+
+    .generate-btn {
+      background: #4f46e5;
+      color: white;
+    }
+
+    .copy-btn {
+      background: #10b981;
+      color: white;
+    }
+
+    .reset-btn {
+      background: #ef4444;
+      color: white;
+    }
+
+    .stats-box {
+      background: white;
+      border-radius: 16px;
+      padding: 15px;
+      text-align: center;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+    }
+
+    .stats-number {
+      font-size: 25px;
+      font-weight: 700;
+      color: #4f46e5;
+    }
+
+    .stats-label {
+      font-size: 12px;
+      color: #6b7280;
+    }
+
+    .history {
+      background: #f9fafb;
+      border-radius: 15px;
+      padding: 15px;
+      max-height: 160px;
+      overflow-y: auto;
+      font-size: 13px;
+      color: #6b7280;
+    }
+
+    .history-item {
+      background: white;
+      border-left: 4px solid #4f46e5;
+      padding: 9px;
+      border-radius: 8px;
+      margin-bottom: 8px;
+    }
+
+    @media (max-width: 576px) {
+      .main-card {
+        padding: 22px;
+      }
+
+      .excuse-text {
+        font-size: 18px;
+      }
+
+      .emoji {
+        font-size: 50px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="main-card">
+
+    <div class="text-center">
+      <div class="emoji">😂</div>
+
+      <h1 class="heading">Random Excuse Generator</h1>
+
+      <p class="subtitle">
+        Need a funny excuse? Let the generator save you!
+      </p>
+    </div>
+
+    <div class="text-center mt-4">
+      <h6 class="mb-3">Choose a Category</h6>
+
+      <div class="d-flex flex-wrap justify-content-center gap-2">
+        <button class="category-btn active" data-category="all">
+          🎲 All
+        </button>
+
+        <button class="category-btn" data-category="college">
+          🎓 College
+        </button>
+
+        <button class="category-btn" data-category="work">
+          💻 Work
+        </button>
+
+        <button class="category-btn" data-category="friends">
+          👫 Friends
+        </button>
+
+        <button class="category-btn" data-category="funny">
+          🤪 Funny
+        </button>
+      </div>
+    </div>
+
+    <div class="excuse-box">
+      <p class="excuse-text mb-0" id="excuseText">
+        Sir, Wi-Fi ne meri assignment upload karne se mana kar diya. 😂
+      </p>
+    </div>
+
+    <div class="d-flex flex-wrap justify-content-center gap-2">
+      <button class="main-btn generate-btn" id="generateBtn">
+        🎲 Generate Excuse
+      </button>
+
+      <button class="main-btn copy-btn" id="copyBtn">
+        📋 Copy Excuse
+      </button>
+
+      <button class="main-btn reset-btn" id="resetBtn">
+        🔄 Reset
+      </button>
+    </div>
+
+    <div class="row g-3 mt-4">
+
+      <div class="col-6">
+        <div class="stats-box">
+          <div class="stats-number" id="generatedCount">0</div>
+          <div class="stats-label">Excuses Generated</div>
+        </div>
+      </div>
+
+      <div class="col-6">
+        <div class="stats-box">
+          <div class="stats-number" id="categoryName">All</div>
+          <div class="stats-label">Selected Category</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="mt-4">
+      <h6>Recent Excuses 📝</h6>
+
+      <div class="history" id="history">
+        No excuses generated yet.
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const excuses = {
+      college: [
+        "Sir, meri attendance Wi-Fi ki tarah kabhi connect hi nahi hui.",
+        "Assignment complete tha, lekin laptop ne submit hone se pehle rest mode le liya.",
+        "Sir, traffic nahi tha, lekin meri motivation traffic mein phas gayi.",
+        "Meri notebook ghar par thi aur main college aa gaya.",
+        "Sir, alarm baja tha, lekin meri neend ne usse reject kar diya.",
+        "Mera pen chal raha tha, par meri kismat nahi chal rahi thi.",
+        "Sir, assignment banaya tha, par printer ne emotional damage kar diya."
+      ],
+
+      work: [
+        "Mera laptop update hone ke naam par vacation par chala gaya.",
+        "Internet slow nahi tha, bas files thodi shy thi.",
+        "Maine task complete kiya tha, lekin save button ne cooperate nahi kiya.",
+        "Meri productivity coffee ke bina start hi nahi hoti.",
+        "System ne mujhe login karne se pehle life ka purpose pooch liya.",
+        "Mera mouse aaj work-from-home kar raha hai.",
+        "Maine email send ki thi, shayad woh motivation ke saath travel kar rahi hai."
+      ],
+
+      friends: [
+        "Bhai, main aa raha tha, par raste mein ek important thought aa gaya.",
+        "Mera phone silent nahi tha, woh meditation mode mein tha.",
+        "Main late nahi hoon, tum log jaldi aa gaye.",
+        "Meri bike ne aaj personal leave le li.",
+        "Main ready tha, bas meri body ready nahi thi.",
+        "Bhai, main location par tha, bas alternate universe mein.",
+        "Mera wallet ghar par reh gaya aur main uske bina emotional ho gaya."
+      ],
+
+      funny: [
+        "Meri billi ne laptop par baith kar assignment delete kar diya.",
+        "Maine kaam start kiya, phir mujhe yaad aaya ki main tired hoon.",
+        "Google bhi is problem ka answer nahi de paaya.",
+        "Meri brain battery 1% par thi aur charger nahi mila.",
+        "Main busy tha... kuch bhi nahi karne mein.",
+        "Meri chair comfortable thi, isliye main uth nahi paya.",
+        "Mera future bright hai, lekin aaj ka din thoda dim tha.",
+        "Maine socha kal kar lunga. Kal ne mana kar diya."
+      ]
+    };
+
+    const excuseText = document.getElementById("excuseText");
+    const generateBtn = document.getElementById("generateBtn");
+    const copyBtn = document.getElementById("copyBtn");
+    const resetBtn = document.getElementById("resetBtn");
+    const generatedCount = document.getElementById("generatedCount");
+    const categoryName = document.getElementById("categoryName");
+    const history = document.getElementById("history");
+    const categoryButtons = document.querySelectorAll(".category-btn");
+
+    let selectedCategory = "all";
+    let count = 0;
+    let historyList = [];
+
+    function getAllExcuses() {
+      return Object.values(excuses).flat();
+    }
+
+    function getRandomExcuse() {
+      let list;
+
+      if (selectedCategory === "all") {
+        list = getAllExcuses();
+      } else {
+        list = excuses[selectedCategory];
+      }
+
+      const randomIndex = Math.floor(Math.random() * list.length);
+
+      return list[randomIndex];
+    }
+
+    function generateExcuse() {
+      const newExcuse = getRandomExcuse();
+
+      excuseText.textContent = newExcuse;
+
+      count++;
+      generatedCount.textContent = count;
+
+      historyList.unshift(newExcuse);
+
+      if (historyList.length > 5) {
+        historyList.pop();
+      }
+
+      renderHistory();
+    }
+
+    function renderHistory() {
+      if (historyList.length === 0) {
+        history.innerHTML = "No excuses generated yet.";
+        return;
+      }
+
+      history.innerHTML = historyList
+        .map((item, index) => {
+          return `
+            <div class="history-item">
+              ${index + 1}. ${item}
+            </div>
+          `;
+        })
+        .join("");
+    }
+
+    categoryButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        categoryButtons.forEach((btn) => {
+          btn.classList.remove("active");
+        });
+
+        button.classList.add("active");
+
+        selectedCategory = button.dataset.category;
+
+        categoryName.textContent =
+          selectedCategory.charAt(0).toUpperCase() +
+          selectedCategory.slice(1);
+
+        generateExcuse();
+      });
+    });
+
+    copyBtn.addEventListener("click", async () => {
+      const text = excuseText.textContent;
+
+      try {
+        await navigator.clipboard.writeText(text);
+
+        copyBtn.textContent = "✅ Copied!";
+
+        setTimeout(() => {
+          copyBtn.textContent = "📋 Copy Excuse";
+        }, 1500);
+      } catch (error) {
+        alert("Copy failed. Please copy manually.");
+      }
+    });
+
+    resetBtn.addEventListener("click", () => {
+      selectedCategory = "all";
+      count = 0;
+      historyList = [];
+
+      categoryButtons.forEach((button) => {
+        button.classList.remove("active");
+      });
+
+      document
+        .querySelector('[data-category="all"]')
+        .classList.add("active");
+
+      categoryName.textContent = "All";
+      generatedCount.textContent = "0";
+
+      excuseText.textContent =
+        "Sir, Wi-Fi ne meri assignment upload karne se mana kar diya. 😂";
+
+      renderHistory();
+    });
+
+    generateBtn.addEventListener("click", generateExcuse);
+  </script>
+
+</body>
+</html>
