@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Digital Plant Care 🌱</title>
+
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  />
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: "Poppins", sans-serif;
+      background: linear-gradient(135deg, #dcfce7, #bbf7d0, #86efac);
+      color: #14532d;
+      padding: 25px 15px;
+    }
+
+    .main-card {
+      max-width: 1000px;
+      margin: auto;
+      background: rgba(255, 255, 255, 0.75);
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      border-radius: 28px;
+      padding: 30px;
+      box-shadow: 0 20px 50px rgba(22, 101, 52, 0.15);
+      backdrop-filter: blur(12px);
+    }
+
+    .heading {
+      font-weight: 700;
+      color: #166534;
+    }
+
+    .subtitle {
+      color: #4b7c5c;
+      font-size: 14px;
+    }
+
+    .plant-area {
+      min-height: 390px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: rgba(220, 252, 231, 0.7);
+      border-radius: 25px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .sun {
+      position: absolute;
+      top: 25px;
+      right: 35px;
+      width: 65px;
+      height: 65px;
+      background: #facc15;
+      border-radius: 50%;
+      box-shadow: 0 0 35px rgba(250, 204, 21, 0.8);
+    }
+
+    .plant {
+      position: relative;
+      width: 220px;
+      height: 250px;
+      margin-top: 30px;
+      transition: 0.5s ease;
+    }
+
+    .stem {
+      position: absolute;
+      width: 14px;
+      height: 150px;
+      background: #15803d;
+      bottom: 65px;
+      left: 103px;
+      border-radius: 20px;
+    }
+
+    .leaf {
+      position: absolute;
+      width: 85px;
+      height: 48px;
+      background: #22c55e;
+      border-radius: 100% 0 100% 0;
+      transition: 0.5s ease;
+    }
+
+    .leaf-one {
+      left: 30px;
+      top: 65px;
+      transform: rotate(-25deg);
+    }
+
+    .leaf-two {
+      right: 25px;
+      top: 95px;
+      transform: rotate(25deg) scaleX(-1);
+    }
+
+    .leaf-three {
+      left: 55px;
+      top: 5px;
+      transform: rotate(-5deg);
+    }
+
+    .pot {
+      position: absolute;
+      bottom: 10px;
+      left: 45px;
+      width: 130px;
+      height: 90px;
+      background: #c2410c;
+      clip-path: polygon(10% 0, 90% 0, 75% 100%, 25% 100%);
+      border-radius: 5px;
+    }
+
+    .pot-top {
+      position: absolute;
+      bottom: 88px;
+      left: 43px;
+      width: 134px;
+      height: 22px;
+      background: #7c2d12;
+      border-radius: 50%;
+    }
+
+    .plant-name {
+      font-size: 22px;
+      font-weight: 700;
+      margin-top: 5px;
+    }
+
+    .plant-message {
+      font-size: 14px;
+      color: #4b7c5c;
+      text-align: center;
+      padding: 0 20px;
+    }
+
+    .info-card {
+      background: white;
+      border-radius: 18px;
+      padding: 18px;
+      height: 100%;
+      box-shadow: 0 5px 20px rgba(22, 101, 52, 0.08);
+    }
+
+    .info-icon {
+      font-size: 28px;
+    }
+
+    .info-title {
+      font-size: 13px;
+      color: #6b8f76;
+    }
+
+    .info-value {
+      font-size: 23px;
+      font-weight: 700;
+      color: #166534;
+    }
+
+    .progress {
+      height: 10px;
+      border-radius: 20px;
+      background: #dcfce7;
+    }
+
+    .progress-bar {
+      background: #22c55e;
+      border-radius: 20px;
+      transition: 0.4s ease;
+    }
+
+    .action-btn {
+      border: none;
+      border-radius: 14px;
+      padding: 13px 10px;
+      color: white;
+      font-weight: 600;
+      transition: 0.3s ease;
+    }
+
+    .action-btn:hover {
+      transform: translateY(-3px);
+    }
+
+    .water-btn {
+      background: #0284c7;
+    }
+
+    .sunlight-btn {
+      background: #eab308;
+      color: #422006;
+    }
+
+    .fertilizer-btn {
+      background: #7c3aed;
+    }
+
+    .reset-btn {
+      background: #ef4444;
+      border: none;
+      border-radius: 12px;
+      color: white;
+      padding: 10px 20px;
+      font-weight: 600;
+    }
+
+    .history {
+      background: #f0fdf4;
+      border-radius: 15px;
+      padding: 15px;
+      font-size: 13px;
+      color: #4b7c5c;
+      max-height: 130px;
+      overflow-y: auto;
+    }
+
+    .healthy {
+      color: #15803d;
+    }
+
+    .warning {
+      color: #ca8a04;
+    }
+
+    .danger {
+      color: #dc2626;
+    }
+
+    @media (max-width: 768px) {
+      .main-card {
+        padding: 20px;
+      }
+
+      .plant-area {
+        min-height: 350px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="main-card">
+
+    <div class="text-center mb-4">
+      <h1 class="heading">Digital Plant Care 🌱</h1>
+      <p class="subtitle">
+        Take care of your virtual plant and keep it healthy!
+      </p>
+    </div>
+
+    <div class="row g-4">
+
+      <!-- Plant Section -->
+      <div class="col-lg-6">
+        <div class="plant-area">
+
+          <div class="sun"></div>
+
+          <div class="plant" id="plant">
+            <div class="stem"></div>
+            <div class="leaf leaf-one"></div>
+            <div class="leaf leaf-two"></div>
+            <div class="leaf leaf-three"></div>
+            <div class="pot-top"></div>
+            <div class="pot"></div>
+          </div>
+
+          <div class="plant-name" id="plantName">
+            Greeny
+          </div>
+
+          <p class="plant-message mt-2 mb-0" id="plantMessage">
+            Your plant is happy and healthy!
+          </p>
+        </div>
+      </div>
+
+      <!-- Control Section -->
+      <div class="col-lg-6">
+
+        <div class="row g-3 mb-3">
+
+          <div class="col-4">
+            <div class="info-card text-center">
+              <div class="info-icon">💧</div>
+              <div class="info-title">Water</div>
+              <div class="info-value">
+                <span id="waterValue">70</span>%
+              </div>
+            </div>
+          </div>
+
+          <div class="col-4">
+            <div class="info-card text-center">
+              <div class="info-icon">☀️</div>
+              <div class="info-title">Sunlight</div>
+              <div class="info-value">
+                <span id="sunValue">60</span>%
+              </div>
+            </div>
+          </div>
+
+          <div class="col-4">
+            <div class="info-card text-center">
+              <div class="info-icon">🌿</div>
+              <div class="info-title">Health</div>
+              <div class="info-value">
+                <span id="healthValue">85</span>%
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="info-card mb-3">
+
+          <div class="d-flex justify-content-between mb-2">
+            <strong>Plant Health</strong>
+            <span id="healthStatus" class="healthy">Healthy</span>
+          </div>
+
+          <div class="progress mb-3">
+            <div
+              class="progress-bar"
+              id="healthBar"
+              style="width: 85%"
+            ></div>
+          </div>
+
+          <div class="d-flex justify-content-between mb-2">
+            <span class="info-title">Water Level</span>
+            <span class="info-title">
+              <span id="waterText">70</span>%
+            </span>
+          </div>
+
+          <div class="progress mb-3">
+            <div
+              class="progress-bar"
+              id="waterBar"
+              style="width: 70%"
+            ></div>
+          </div>
+
+          <div class="d-flex justify-content-between mb-2">
+            <span class="info-title">Sunlight Level</span>
+            <span class="info-title">
+              <span id="sunText">60</span>%
+            </span>
+          </div>
+
+          <div class="progress">
+            <div
+              class="progress-bar"
+              id="sunBar"
+              style="width: 60%"
+            ></div>
+          </div>
+
+        </div>
+
+        <div class="row g-2">
+
+          <div class="col-4">
+            <button
+              class="action-btn water-btn w-100"
+              id="waterBtn"
+            >
+              💧 Water
+            </button>
+          </div>
+
+          <div class="col-4">
+            <button
+              class="action-btn sunlight-btn w-100"
+              id="sunlightBtn"
+            >
+              ☀️ Sun
+            </button>
+          </div>
+
+          <div class="col-4">
+            <button
+              class="action-btn fertilizer-btn w-100"
+              id="fertilizerBtn"
+            >
+              🌿 Feed
+            </button>
+          </div>
+
+        </div>
+
+        <div class="history mt-3" id="history">
+          <strong>Activity Log</strong>
+          <hr />
+          Plant created successfully. Take care of Greeny!
+        </div>
+
+        <div class="text-center">
+          <button class="reset-btn mt-3" id="resetBtn">
+            Reset Plant
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let water = 70;
+    let sunlight = 60;
+    let health = 85;
+
+    const waterValue = document.getElementById("waterValue");
+    const sunValue = document.getElementById("sunValue");
+    const healthValue = document.getElementById("healthValue");
+
+    const waterText = document.getElementById("waterText");
+    const sunText = document.getElementById("sunText");
+
+    const waterBar = document.getElementById("waterBar");
+    const sunBar = document.getElementById("sunBar");
+    const healthBar = document.getElementById("healthBar");
+
+    const healthStatus = document.getElementById("healthStatus");
+    const plantMessage = document.getElementById("plantMessage");
+    const plant = document.getElementById("plant");
+    const history = document.getElementById("history");
+
+    function limit(value) {
+      return Math.max(0, Math.min(100, value));
+    }
+
+    function addLog(message) {
+      const time = new Date().toLocaleTimeString();
+
+      history.innerHTML += `
+        <div class="mt-2">
+          <strong>${time}</strong> - ${message}
+        </div>
+      `;
+
+      history.scrollTop = history.scrollHeight;
+    }
+
+    function updatePlant() {
+      water = limit(water);
+      sunlight = limit(sunlight);
+      health = limit(health);
+
+      waterValue.textContent = water;
+      sunValue.textContent = sunlight;
+      healthValue.textContent = health;
+
+      waterText.textContent = water;
+      sunText.textContent = sunlight;
+
+      waterBar.style.width = water + "%";
+      sunBar.style.width = sunlight + "%";
+      healthBar.style.width = health + "%";
+
+      if (health >= 75) {
+        healthStatus.textContent = "Healthy";
+        healthStatus.className = "healthy";
+        plantMessage.textContent =
+          "Your plant is happy and healthy! Keep caring for it.";
+      } else if (health >= 40) {
+        healthStatus.textContent = "Needs Care";
+        healthStatus.className = "warning";
+        plantMessage.textContent =
+          "Your plant needs some care. Try watering or giving sunlight.";
+      } else {
+        healthStatus.textContent = "Unhealthy";
+        healthStatus.className = "danger";
+        plantMessage.textContent =
+          "Oh no! Your plant is weak. Give it proper care.";
+      }
+
+      if (health < 40) {
+        plant.style.transform = "rotate(-8deg) scale(0.9)";
+      } else if (health < 70) {
+        plant.style.transform = "rotate(-3deg) scale(0.95)";
+      } else {
+        plant.style.transform = "rotate(0deg) scale(1)";
+      }
+
+      if (water < 25) {
+        plantMessage.textContent =
+          "Your plant is thirsty! Please give it some water.";
+      }
+
+      if (sunlight < 25) {
+        plantMessage.textContent =
+          "Your plant needs more sunlight.";
+      }
+    }
+
+    document.getElementById("waterBtn").addEventListener("click", () => {
+      water += 20;
+      health += 5;
+
+      updatePlant();
+      addLog("You watered Greeny 💧");
+    });
+
+    document.getElementById("sunlightBtn").addEventListener("click", () => {
+      sunlight += 20;
+      health += 4;
+
+      updatePlant();
+      addLog("You gave Greeny sunlight ☀️");
+    });
+
+    document.getElementById("fertilizerBtn").addEventListener("click", () => {
+      health += 8;
+
+      updatePlant();
+      addLog("You added fertilizer 🌿");
+    });
+
+    document.getElementById("resetBtn").addEventListener("click", () => {
+      water = 70;
+      sunlight = 60;
+      health = 85;
+
+      history.innerHTML = `
+        <strong>Activity Log</strong>
+        <hr />
+        Plant reset successfully. Greeny is ready again!
+      `;
+
+      updatePlant();
+    });
+
+    // Natural decrease over time
+    setInterval(() => {
+      water -= 1;
+      sunlight -= 1;
+      health -= 1;
+
+      updatePlant();
+    }, 10000);
+
+    updatePlant();
+  </script>
+</body>
+</html>
